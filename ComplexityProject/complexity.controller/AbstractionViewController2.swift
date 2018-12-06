@@ -10,7 +10,8 @@ import UIKit
 
 public class AbstractionViewController: UIPageViewController, UIPageViewControllerDataSource
 {
-
+    
+    
     // MARK: - Lifecycle methods
     public override func viewDidLoad() -> Void
     {
@@ -19,12 +20,12 @@ public class AbstractionViewController: UIPageViewController, UIPageViewControll
         if let firstViewController = orderedAbstractionViews.first
         {
             setViewControllers([firstViewController],
-                              direction: .forward,
-                              animated: true,
-                              completion: nil)
+                               direction: .forward,
+                               animated: true,
+                               completion: nil)
         }
     }
-
+    
     // MARK: - Data Members
     private lazy var orderedAbstractionViews : [UIViewController] =
     {
@@ -33,24 +34,24 @@ public class AbstractionViewController: UIPageViewController, UIPageViewControll
             self.newAbstractionViewController(abstractionLevel: "Block"),
             self.newAbstractionViewController(abstractionLevel: "Bytecode"),
             self.newAbstractionViewController(abstractionLevel: "Binary"),
-            self.newAbstractionViewController(abstractionLevel: "LogicalGate"),
-        ]
+            self.newAbstractionViewController(abstractionLevel: "LogicalGate")
+            ]
     }()
     
     // MARK: Helper method to retrieve the correct ViewController bassed on the data member
-    private func newAbstractViewController(abstractionLevel : String) -> UIViewController
+    private func newAbstractionViewController(abstractionLevel : String) -> UIViewController
     {
-        return UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController(withIdentifier: "\(abstractionLevel)ViewController")
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "\(abstractionLevel)ViewController")
     }
     
     // MARK: - Datasource required methods
     // Swipe Left
-    public func viewControllerIndex(_ pageViewController: UIPageViewController, viewControllerBefore: UIViewController) -> UIViewController?
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController?
     {
         guard let viewControllerIndex = orderedAbstractionViews.index(of: viewController)
             else
         {
-                return nil
+            return nil
         }
         
         let previousIndex = viewControllerIndex - 1
@@ -64,7 +65,7 @@ public class AbstractionViewController: UIPageViewController, UIPageViewControll
         guard orderedAbstractionViews.count > previousIndex
             else
         {
-                return nil
+            return nil
         }
         
         return orderedAbstractionViews[previousIndex]
@@ -76,7 +77,7 @@ public class AbstractionViewController: UIPageViewController, UIPageViewControll
         guard let viewControllerIndex = orderedAbstractionViews.index(of: viewController)
             else
         {
-                return nil
+            return nil
         }
         
         let nextIndex = viewControllerIndex + 1
@@ -106,7 +107,7 @@ public class AbstractionViewController: UIPageViewController, UIPageViewControll
     public func presentationIndex(for pageViewController: UIPageViewController) -> Int
     {
         guard let firstViewController = viewControllers?.first, let firstViewControllerIndex = orderedAbstractionViews.index(of: firstViewController)
-        else
+            else
         {
             return 0
         }
@@ -114,4 +115,3 @@ public class AbstractionViewController: UIPageViewController, UIPageViewControll
         return firstViewControllerIndex
     }
 }
-
